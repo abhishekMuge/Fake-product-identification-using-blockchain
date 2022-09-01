@@ -1,0 +1,3 @@
+page: add_products: 
+future customizations:
+add multiselect dropdown for category : https://www.npmjs.com/package/multiselect-react-dropdown
