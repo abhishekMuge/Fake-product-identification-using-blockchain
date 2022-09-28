@@ -11,7 +11,7 @@ export default function Home() {
         <title>Authentifi</title>
         <meta
           name="description"
-          content="Validate Fake products, powered by Blockchaing Technology"
+          content="Validate Fake products, powered by Blockchain Technology"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
