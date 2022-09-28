@@ -3,14 +3,10 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useState } from "react";
-import ControlledPopup from "../utils/Popup";
 
 export default function Home() {
-  const [open, setOpen] = useState(false);
-  const closeModal = () => setOpen(false);
   return (
     <div>
-      <ControlledPopup type="Demo" closeModal={closeModal} modelState={open} />
       <Head>
         <title>Authentifi</title>
         <meta
@@ -54,16 +50,10 @@ export default function Home() {
               truffaut hexagon try-hard chambray.
             </p>
             <div className="flex justify-center">
-              <button
-                className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
-                onClick={() => setOpen((o) => !o)}
-              >
+              <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">
                 Create Account
               </button>
-              <button
-                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold"
-                onClick={() => setOpen((o) => !o)}
-              >
+              <button className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
                 Login
               </button>
             </div>

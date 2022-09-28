@@ -6,7 +6,7 @@ function MyApp({ Component, pageProps }) {
   // console.log(router.pathname);
   return (
     <div>
-      {router.pathname != "/" && (
+      {router.pathname != "/" && router.pathname != "/auth" && (
         <Layout>
           <Component {...pageProps} />
         </Layout>
