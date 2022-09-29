@@ -4,6 +4,8 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useState } from "react";
 
+const web3 = require("web3");
+
 export default function Home() {
   return (
     <div>

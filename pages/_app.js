@@ -3,15 +3,16 @@ import "../styles/globals.css";
 import Layout from "../utils/Layout";
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  // console.log(router.pathname);
+  let isLayout = router.pathname != "/" && router.pathname != "/auth";
   return (
     <div>
-      {router.pathname != "/" && router.pathname != "/auth" && (
+      {isLayout ? (
         <Layout>
           <Component {...pageProps} />
         </Layout>
+      ) : (
+        <Component {...pageProps} />
       )}
-      <Component {...pageProps} />
     </div>
   );
 }
