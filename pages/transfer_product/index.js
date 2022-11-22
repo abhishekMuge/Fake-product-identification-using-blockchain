@@ -18,7 +18,7 @@ export default function transferProduct() {
         <div className="flex mb-4">
           <div class="relative mb-4 mr-5 w-1/2">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Owner Addrees
+              Owner Address
             </label>
             <input
               type="text"

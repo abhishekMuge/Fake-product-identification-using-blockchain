@@ -8,7 +8,7 @@ function allProducts() {
           <button className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
