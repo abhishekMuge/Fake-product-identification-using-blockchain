@@ -17,3 +17,5 @@ module.exports = {
 };
 
 // Contract deployed on address: 0x1f31449ff2175D485F5f1F7055C91cdb1dac995B
+// second version
+// Contract deployed on address: 0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90
