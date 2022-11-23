@@ -2,9 +2,61 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import abi from "../smart_contract/artifacts/contracts/Authentifi.sol/Authentifi.json";
+
+const Web3 = require("web3");
+const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
+const contractABI = abi.abi;
 
 export default function Home() {
+  const [connectedAccount, setConnectedAccount] = useState(undefined);
+  const [contractInstance, setContractInstance] = useState(undefined);
+  const [web3, setWeb3] = useState();
+  const [error, setError] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+
+  useEffect(() => {
+    loadContract();
+  }, [contractInstance]);
+
+  const loadContract = async () => {
+    if (
+      typeof window !== "undefined" &&
+      typeof window.ethereum !== "undefined"
+    ) {
+      setError("");
+      setSuccessMsg("");
+      try {
+        /* request wallet connection */
+        await window.ethereum.request({ method: "eth_requestAccounts" });
+        /* create web3 instance & set to state */
+        const web3 = new Web3(window.ethereum);
+        /* set web3 instance in React state */
+        setWeb3(web3);
+        /* get list of accounts */
+        const accounts = await web3.eth.getAccounts();
+        /* set account 1 to React state */
+        setConnectedAccount(accounts[0]);
+
+        const AuthentifiInstance = new web3.eth.Contract(
+          contractABI,
+          contractAddress
+        );
+        setContractInstance(AuthentifiInstance);
+
+        window.ethereum.on("accountsChanged", async () => {
+          const accounts = await web3.eth.getAccounts();
+          console.log(accounts[0]);
+          /* set account 1 to React state */
+          setConnectedAccount(accounts[0]);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <div>
       <Head>
