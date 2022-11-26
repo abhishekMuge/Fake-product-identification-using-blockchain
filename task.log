@@ -1,0 +1,8 @@
+Authentication module:
+Task : status
+1. Update the Ui for homepage: Done(Abhishek)
+2. Update the Ui for auth page: Todo
+3. link Homepage and auth page: Todo(Abhishek)
+4. work on toggle functionality for auth page with signup or signin constraints: Todo
+5. connect auth functionality to smart contract: Todo
+6. Unit testing: Todo
