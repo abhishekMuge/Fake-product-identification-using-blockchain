@@ -4,11 +4,11 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import abi from "../smart_contract/artifacts/contracts/Authentifi.sol/Authentifi.json";
+import { abi } from "../Testabi";
 
 const Web3 = require("web3");
 const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
-const contractABI = abi.abi;
+const contractABI = abi;
 
 export default function Home() {
   const [connectedAccount, setConnectedAccount] = useState(undefined);
