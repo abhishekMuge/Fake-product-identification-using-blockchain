@@ -3,11 +3,11 @@ import { HomepageSaver } from "../assests/HomepageSaver";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import abi from "../smart_contract/artifacts/contracts/Authentifi.sol/Authentifi.json";
+import { abi } from "../Testabi";
 
 const Web3 = require("web3");
 const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
-const contractABI = abi.abi;
+const contractABI = abi;
 
 export default function Home() {
   const [connectedAccount, setConnectedAccount] = useState(undefined);
@@ -57,7 +57,7 @@ export default function Home() {
     }
   };
   return (
-    <div class="body w-full h-screen">
+    <div className="body w-full h-screen">
       <Head>
         <title>Authentifi</title>
         <meta
@@ -96,14 +96,15 @@ export default function Home() {
             </h1>
             <p className="mb-8 w-3/4 leading-relaxed leading-7 font-semibold text-justify">
               Secure product registration gateway, enables manufacturers to
-              identify leaks in product distributions with compability to
+              identify leaks in product distributions with compatibility to
               identify fake product.
             </p>
             <div className="flex justify-center">
               <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">
                 Create Account
               </button>
-              <button className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
+              <button             
+                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
                 Login
               </button>
             </div>

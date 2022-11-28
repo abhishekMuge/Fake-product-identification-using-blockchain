@@ -59,7 +59,7 @@ contract Authentifi {
     ) view public returns(string memory, string memory, string memory, address){
         return(
             customer_db[_uuid].name, 
-            customer_db[_uuid]. type_of, 
+            customer_db[_uuid].type_of, 
             customer_db[_uuid].phone_number, 
             customer_db[_uuid].account_address
         );
