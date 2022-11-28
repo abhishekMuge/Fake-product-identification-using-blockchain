@@ -57,7 +57,7 @@ export default function Home() {
     }
   };
   return (
-    <div class="body w-full h-screen">
+    <div className="body w-full h-screen">
       <Head>
         <title>Authentifi</title>
         <meta
@@ -96,14 +96,15 @@ export default function Home() {
             </h1>
             <p className="mb-8 w-3/4 leading-relaxed leading-7 font-semibold text-justify">
               Secure product registration gateway, enables manufacturers to
-              identify leaks in product distributions with compability to
+              identify leaks in product distributions with compatibility to
               identify fake product.
             </p>
             <div className="flex justify-center">
               <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">
                 Create Account
               </button>
-              <button className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
+              <button             
+                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
                 Login
               </button>
             </div>
