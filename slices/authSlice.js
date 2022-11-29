@@ -14,8 +14,8 @@ const authSlice = createSlice({
             state.loggedIn = true;
             state.userData = action.payload.userData;
             // store token in localstorage
-            localStorage.setItem("userData", (action.payload.userData.email));
-            state.isFarmer = action.payload.userData.isFarmer;
+            localStorage.setItem("userData", (action.payload.userData.account_address));
+            state.isCompany = action.payload.userData.isCompany;
             state.name = action.payload.userData.name;
             state.user_id = action.payload.userData._id;
         },
@@ -60,6 +60,42 @@ export const signup = (data) => {
                 dispatch(notificationAction.disableNotification());
             }, 2000);
             
+        }
+    }
+}
+
+export const signin = (data) => {
+    return async (dispatch) => {
+        dispatch(notificationAction.enableNotification({
+            message: "Logging In",
+            heading: "Success"
+        }))
+        let response = await fetch("http://localhost:8000/login", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        let json = await response.json();
+        console.log(json);
+        if (!response.ok) {
+            dispatch(notificationAction.enableNotification({
+                message: "User Login failed !",
+                heading: "Failed"
+            }))
+            setTimeout(() => {
+                dispatch(notificationAction.disableNotification());
+            }, 2000);
+        } else {
+            dispatch(notificationAction.enableNotification({
+                message: "User login Successful !",
+                heading: "Success"
+            }))
+            dispatch(authActions.login({ userData: json.data.user }))
+            setTimeout(() => {
+                dispatch(notificationAction.disableNotification());
+            }, 2000);
         }
     }
 }
