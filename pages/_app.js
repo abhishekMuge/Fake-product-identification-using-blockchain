@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
-  let isLayout = router.pathname != "/" && router.pathname != "/auth";
+  let isLayout = router.pathname != "/" && router.pathname != "/auth/register" && router.pathname != "/auth/login";
   return (
     <Provider store={store}>
       <div>

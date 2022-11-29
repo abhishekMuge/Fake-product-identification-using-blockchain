@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { abi } from "../Testabi";
+import Router from 'next/router'
 
 const Web3 = require("web3");
 const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
 const contractABI = abi;
 
-export default function Home() {
+export default function Register() {
   const [connectedAccount, setConnectedAccount] = useState(undefined);
   const [contractInstance, setContractInstance] = useState(undefined);
   const [web3, setWeb3] = useState();
@@ -100,11 +101,15 @@ export default function Home() {
               identify fake product.
             </p>
             <div className="flex justify-center">
-              <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">
+              <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
+              onClick={() => Router.push('/auth/register')}
+              >
                 Create Account
               </button>
               <button             
-                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold">
+                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold"                
+                onClick={() => Router.push('/auth/login')}
+                >
                 Login
               </button>
             </div>

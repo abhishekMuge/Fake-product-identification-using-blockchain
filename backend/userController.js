@@ -26,3 +26,29 @@ exports.registerUser = async (req, res, next) => {
         next(error)
     }
 }
+
+exports.loginUser = async (req, res, next) => {
+    try {
+        const { account_address, password } = req.body
+
+        const user = await User.findOne({ account_address: account_address });
+
+        if ( user == null ) {
+            res.status(200).send({ status: 400, message: "Invalid Account" });
+            return;
+        }
+        else{
+            if( account_address == user.account_address && user.password == password ){
+                res.status(200).json({
+                    status: 200,
+                    message: "User Login Successfully",
+                    data: {
+                        user: user
+                    }
+                })
+            }
+        }        
+    } catch (error) {
+        next(error)
+    }
+}

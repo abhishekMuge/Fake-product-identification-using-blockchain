@@ -18,9 +18,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
-const { registerUser } = require('../backend/userController');
+const { registerUser, loginUser } = require('../backend/userController');
 
 const register = router.post('/register', registerUser);
+const login = router.post('/login', loginUser);
+
 app.use(register)
+app.use(login);
 
 app.listen(process.env.PORT, () => console.log('server running on port 8000'))

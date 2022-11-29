@@ -3,7 +3,7 @@ export default function transferProduct() {
     <div>
       <h1 className="w-full text-3xl font-bold">Transfer Product</h1>
       <form className="mt-10 w-full">
-        <div class="relative mb-4">
+        <div className="relative mb-4">
           <label for="name" className="leading-7 text-md text-gray-600">
             Product ID
           </label>
@@ -16,7 +16,7 @@ export default function transferProduct() {
         </div>
 
         <div className="flex mb-4">
-          <div class="relative mb-4 mr-5 w-1/2">
+          <div className="relative mb-4 mr-5 w-1/2">
             <label for="name" className="leading-7 text-md text-gray-600">
               Owner Address
             </label>
@@ -28,7 +28,7 @@ export default function transferProduct() {
             />
           </div>
 
-          <div class="relative mb-4 mr-5 w-2/5">
+          <div className="relative mb-4 mr-5 w-2/5">
             <label for="name" className="leading-7 text-md text-gray-600">
               New Owner Addrees
             </label>
