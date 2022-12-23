@@ -2,9 +2,10 @@ import Head from "next/head";
 import { HomepageSaver } from "../assests/HomepageSaver";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { abi } from "../Testabi";
-import Router from 'next/router'
+import { useDispatch } from "react-redux";
+import { loadstates } from "../slices/contractSlice";
+import Router from "next/router";
 
 const Web3 = require("web3");
 const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
@@ -51,6 +52,15 @@ export default function Register() {
           console.log(accounts[0]);
           /* set account 1 to React state */
           setConnectedAccount(accounts[0]);
+
+          // store the contract instance and account address over global state
+          const dispatch = useDispatch();
+          dispatch(
+            loadstates({
+              connectedAddress: connectedAccount,
+              instance: contractInstance,
+            })
+          );
         });
       } catch (error) {
         console.log(error);
@@ -101,15 +111,16 @@ export default function Register() {
               identify fake product.
             </p>
             <div className="flex justify-center">
-              <button className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
-              onClick={() => Router.push('/auth/register')}
+              <button
+                className="inline-flex text-white bg-gray-800 border-0 py-3 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg"
+                onClick={() => Router.push("/auth/register")}
               >
                 Create Account
               </button>
-              <button             
-                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold"                
-                onClick={() => Router.push('/auth/login')}
-                >
+              <button
+                className="inline-flex ml-4 bg-white text-black border-2 border-black py-3 px-6 rounded text-lg font-semibold"
+                onClick={() => Router.push("/auth/login")}
+              >
                 Login
               </button>
             </div>
