@@ -1,23 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
-
 const contractSlice = createSlice({
   name: "contract",
   initialState: {
     instance: {},
-    connectedAddress: undefined,
+    title: "",
+    connectedAddress: "",
   },
   reducers: {
     loadInstace: (state, action) => {
+      // console.log("action", action);
       state.instance = action.instance;
       state.connectedAddress = action.connectedAddress;
+      // return state;
+      // console.log("state", state);
+    },
+    setName: (state, action) => {
+      state.title = action.name;
+      // return state;
     },
   },
 });
 
 export const contractActions = contractSlice.actions;
-export const selectContractInstance = (state) => state.contract.instance;
-export const selectConnectedAddress = (state) =>
-  state.contract.connectedAddress;
 
 export const loadstates = (data) => {
   return async (dispatch) => {

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
+pragma experimental ABIEncoderV2;
 
 contract Authentifi {
     struct Customer {
@@ -8,150 +9,210 @@ contract Authentifi {
         string phone_number;
         address account_address;
         string uuid;
+        string location_address;
+        bool isRegister;
+        string[] codes;
     }
 
-    struct Manufactuer {
-        string uuid;
-        string name;
-        string location_address;
-        address manufactuer_address;
-        string phone_number;
+    struct TransactionLog {
+        string query;
+        string message;
+        address issuedBy;
+        string date;
+        string productcode;
+        bool isCompleted;
     }
 
     struct Products {
         string uuid;
         string name;
-        address owner;
-        string manufacturer;
-        address[] previous_owners;
-        address listed_by;
+        string ownerId;
+        address owner_address;
+        string manufacturerId;
+        address manufactuer_address;
+        string[] logsId;
         string type_of;
-        string[] product_images;
         bool is_antique;
         string[] product_certificates;
-        bool isVerified;
+        bool isRegister;
     }
 
     mapping(string => Customer) customer_db;
     mapping(string => Products) product_db;
-    mapping(string => Manufactuer) manufacturer_db;
+    mapping(string => TransactionLog) logs_db;
+
+    // mapping(string => Manufactuer) manufacturer_db;
 
     function createCustomer(
-        string memory _name, 
-        string memory _type_of, 
-        string memory _phone_no, 
-        address _account_address, 
-        string memory _uuid
-        ) 
-        public payable returns(uint) {
-            Customer memory newCustomer;
-            newCustomer.name = _name;
-            newCustomer.type_of = _type_of;
-            newCustomer.phone_number = _phone_no;
-            newCustomer.account_address = _account_address;
-
-            customer_db[_uuid] = newCustomer;
-            return 1;
-    }
-
-    function getCustomer(
-        string memory _uuid
-    ) view public returns(string memory, string memory, string memory, address){
-        return(
-            customer_db[_uuid].name, 
-            customer_db[_uuid].type_of, 
-            customer_db[_uuid].phone_number, 
-            customer_db[_uuid].account_address
-        );
-    }
-
-    function registerManufacturer(
         string memory _name,
-        string memory _location,
+        string memory _type_of,
+        string memory _phone_no,
         string memory _uuid,
-        address _manufacturer_address,
-        string memory _phone_no
-    ) public payable returns(uint) {
-        Manufactuer memory newManufacturer;
-        newManufacturer.name = _name;
-        newManufacturer.location_address = _location;
-        newManufacturer.manufactuer_address = _manufacturer_address;
-        newManufacturer.phone_number = _phone_no;
-        manufacturer_db[_uuid] = newManufacturer;
+        string memory _location_address
+    ) public returns (uint256) {
+        Customer memory newCustomer;
+        newCustomer.name = _name;
+        newCustomer.type_of = _type_of;
+        newCustomer.phone_number = _phone_no;
+        newCustomer.account_address = msg.sender;
+        newCustomer.location_address = _location_address;
+        newCustomer.isRegister = true;
+        customer_db[_uuid] = newCustomer;
         return 1;
     }
 
-    function getManufactuer(
-        string memory _uuid
-    ) view public returns (
-        string memory,
-        string memory,
-        string memory,
-        address,
-        string memory
-    ) {
-        return(
-            manufacturer_db[_uuid].uuid,
-            manufacturer_db[_uuid].name,
-            manufacturer_db[_uuid].location_address,
-            manufacturer_db[_uuid].manufactuer_address,
-            manufacturer_db[_uuid].phone_number
+    function getCustomer(string memory _uuid)
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            string memory,
+            address,
+            string memory
+        )
+    {
+        return (
+            customer_db[_uuid].name,
+            customer_db[_uuid].type_of,
+            customer_db[_uuid].phone_number,
+            customer_db[_uuid].account_address,
+            customer_db[_uuid].location_address
         );
     }
 
+    function getCustomerProducts(string memory _uuid)
+        public
+        view
+        returns (string[] memory)
+    {
+        return (customer_db[_uuid].codes);
+    }
 
     function registerProduct(
         string memory _uuid,
         string memory _name,
-        string memory _manufacturer,
+        string memory _manufacturerId,
         string memory _type_of,
-        bool _is_antique
-    ) public payable returns(uint) {
+        bool _is_antique,
+        string memory _ownerId,
+        address _manufacturer_address
+    ) public returns (uint256) {
+        //register new product placed product under its db instance
         Products memory newProduct;
         newProduct.name = _name;
-        newProduct.manufacturer = _manufacturer;
+        newProduct.manufacturerId = _manufacturerId;
+        newProduct.manufactuer_address = _manufacturer_address;
         newProduct.type_of = _type_of;
         newProduct.is_antique = _is_antique;
-        newProduct.isVerified = true;
+        newProduct.ownerId = _ownerId;
+        newProduct.owner_address = msg.sender;
+        newProduct.isRegister = true;
         product_db[_uuid] = newProduct;
+        //add product to users
+        customer_db[_ownerId].codes.push(_uuid);
+
         return 1;
     }
 
-
-
-    function getProduct(string memory _uuid) public view returns (
-        string memory, 
-        address,
-        string memory,
-        address[] memory,
-        address,
-        string memory,
-        string[] memory,
-        bool, 
-        string[] memory
-    ){
+    function getProduct(string memory _uuid)
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            address,
+            string memory,
+            address,
+            string memory,
+            bool,
+            string[] memory,
+            string[] memory
+        )
+    {
         Products memory prod = product_db[_uuid];
-        return(
+        return (
             prod.name,
-            prod.owner,
-            prod.manufacturer,
-            prod.previous_owners,
-            prod.listed_by,
+            prod.ownerId,
+            prod.owner_address,
+            prod.manufacturerId,
+            prod.manufactuer_address,
             prod.type_of,
-            prod.product_images,
             prod.is_antique,
-            prod.product_certificates
+            prod.product_certificates,
+            prod.logsId
         );
     }
 
     function uploadDocuments(
-        string memory _uuid, 
+        string memory _uuid,
         string[] memory _product_certificates
-    ) payable public returns(uint) {
-        require(product_db[_uuid].isVerified);
-        product_db[_uuid].product_certificates = _product_certificates;
-        return 1;
+    ) public returns (string memory) {
+        if (product_db[_uuid].isRegister) {
+            product_db[_uuid].product_certificates = _product_certificates;
+            return "documents has been uploaded in blockchain successfully!";
+        }
+        return
+            "Give hash key has not associated with any products in blockchain";
     }
 
-}
+    function changeOwner(
+        string memory _uuid,
+        string memory _log_uuid,
+        string memory _prev_owner_id,
+        string memory _new_owner_id,
+        string memory _date,
+        string memory _query,
+        string memory _message
+    ) public returns (string memory) {
+        // create log instance
+        TransactionLog memory log;
+        //check if product is avaliable
+        if (product_db[_uuid].isRegister) {
+            product_db[_uuid].ownerId = _new_owner_id;
+            product_db[_uuid].owner_address = customer_db[_new_owner_id]
+                .account_address;
 
+            log.query = _query;
+            log.message = _message;
+            log.issuedBy = msg.sender;
+            log.date = _date;
+            log.productcode = _uuid;
+            log.isCompleted = true;
+            logs_db[_log_uuid] = log;
+            //update log in log db
+            product_db[_uuid].logsId.push(_log_uuid);
+
+            //remove code from old customer space and add to new customer space
+            customer_db[_new_owner_id].codes.push(_uuid);
+
+            //remove from old customer
+            uint256 len = customer_db[_prev_owner_id].codes.length - 1;
+            uint256 idx;
+            for (uint256 i = 0; i <= len; i++) {
+                if (
+                    compareStrings(customer_db[_prev_owner_id].codes[i], _uuid)
+                ) {
+                    idx = i;
+                    break;
+                }
+            }
+            string memory lastEle = customer_db[_prev_owner_id].codes[len];
+            customer_db[_prev_owner_id].codes[idx] = lastEle;
+
+            customer_db[_prev_owner_id].codes.pop();
+
+            return "Successful!";
+        }
+        return
+            "Give hash key has not associated with any products in blockchain";
+    }
+
+    function compareStrings(string memory a, string memory b)
+        internal
+        pure
+        returns (bool)
+    {
+        return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
+    }
+}

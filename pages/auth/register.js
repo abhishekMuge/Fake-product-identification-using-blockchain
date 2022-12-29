@@ -2,27 +2,60 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../../slices/authSlice";
-
-const auth = () => {
+// import { loadContract } from "../../service/loadContract";
+import { ethers } from "ethers";
+const Register = ({ contractInfo }) => {
   const dispatch = useDispatch();
   const [Type, setType] = useState("Customer");
   const [warning, setWarning] = useState(false);
+  // const [contractAddress, setContractAddress] = useState("");
+  // const [contractInstance, setContractInstance] = useState({});
   const [data, setData] = useState({
     name: "",
     type_of: Type,
     phone_number: "",
-    account_address: "",
     password: "",
+    location: "",
   });
+
+  // const loadService = async () => {
+  //   const res = await loadContract();
+  //   setContractAddress(res.contractActiveAddress);
+  //   setContractInstance(res.contractInstace);
+  // };
 
   const InputChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    dispatch(signup(data));
-    console.log(data);
+    let req = { ...data, account_address: contractInfo.contractActiveAddress };
+    // console.log(req);
+    // dispatch(signup(data));
+    // console.log(data);
+    const isSuccess = await saveStateToContract();
+    console.log("create customer status: ", isSuccess);
+  };
+
+  const saveStateToContract = async () => {
+    // console.log(contractInfo.contractInstace.methods);
+    const res = await contractInfo.contractInstace.methods
+      .createCustomer(
+        data.name,
+        data.type_of,
+        data.phone_number,
+        "a02674e97f56464092941ed87b61ad2e",
+        data.location
+      )
+      .send({
+        from: contractInfo.contractActiveAddress,
+      });
+
+    // const customer = await contractInfo.contractInstace.methods
+    //   .getCustomer("63ac1b147ce238b1a857e454")
+    //   .call();
+    // console.log(customer);
   };
 
   return (
@@ -52,8 +85,7 @@ const auth = () => {
                             type="text"
                             className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             name="account_address"
-                            value={data.account_address}
-                            onChange={InputChange}
+                            value={contractInfo.contractActiveAddress}
                             placeholder="your current conected account address"
                             disabled
                           />
@@ -66,6 +98,16 @@ const auth = () => {
                             value={data.phone_number}
                             onChange={InputChange}
                             placeholder="Phone Number"
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <input
+                            type="text"
+                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            name="location"
+                            value={data.location}
+                            onChange={InputChange}
+                            placeholder="location"
                           />
                         </div>
                         <div className="mb-4">
@@ -173,4 +215,4 @@ const auth = () => {
   );
 };
 
-export default auth;
+export default Register;

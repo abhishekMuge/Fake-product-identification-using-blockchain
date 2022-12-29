@@ -1,72 +1,62 @@
 import Head from "next/head";
 import { HomepageSaver } from "../assests/HomepageSaver";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { abi } from "../Testabi";
-import { useDispatch } from "react-redux";
-import { loadstates } from "../slices/contractSlice";
 import Router from "next/router";
 
 const Web3 = require("web3");
-const contractAddress = "0xc7BBF1283f5955F53eaE43Dce46EA2C23b68BC90";
-const contractABI = abi;
+// const contractAddress = "0xdDbb8ba0bf4eCbC081Ceba8794d94420cA5CcC8b";
+// const contractABI = abi;
 
 export default function Register() {
-  const [connectedAccount, setConnectedAccount] = useState(undefined);
-  const [contractInstance, setContractInstance] = useState(undefined);
-  const [web3, setWeb3] = useState();
-  const [error, setError] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
+  // const [connectedAccount, setConnectedAccount] = useState(undefined);
+  // const [contractInstance, setContractInstance] = useState(undefined);
+  // const [web3, setWeb3] = useState();
+  // useEffect(() => {
+  //   loadContract();
+  //   // console.log("contract Instance:", contractInstance);
+  //   // console.log("connected account:", connectedAccount);
+  // }, []);
 
-  useEffect(() => {
-    loadContract();
-  }, [contractInstance]);
+  // const loadContract = async () => {
+  //   if (
+  //     typeof window !== "undefined" &&
+  //     typeof window.ethereum !== "undefined"
+  //   ) {
+  //     try {
+  //       // console.log("test1");
+  //       /* request wallet connection */
+  //       await window.ethereum.request({ method: "eth_requestAccounts" });
+  //       /* create web3 instance & set to state */
+  //       const web3 = new Web3(window.ethereum);
+  //       /* set web3 instance in React state */
+  //       setWeb3(web3);
+  //       /* get list of accounts */
+  //       const accounts = await web3.eth.getAccounts();
+  //       /* set account 1 to React state */
+  //       let account = accounts[0];
+  //       setConnectedAccount(accounts[0]);
 
-  const loadContract = async () => {
-    if (
-      typeof window !== "undefined" &&
-      typeof window.ethereum !== "undefined"
-    ) {
-      setError("");
-      setSuccessMsg("");
-      try {
-        /* request wallet connection */
-        await window.ethereum.request({ method: "eth_requestAccounts" });
-        /* create web3 instance & set to state */
-        const web3 = new Web3(window.ethereum);
-        /* set web3 instance in React state */
-        setWeb3(web3);
-        /* get list of accounts */
-        const accounts = await web3.eth.getAccounts();
-        /* set account 1 to React state */
-        setConnectedAccount(accounts[0]);
+  //       const AuthentifiInstance = new web3.eth.Contract(
+  //         contractABI,
+  //         contractAddress
+  //       );
+  //       setContractInstance(AuthentifiInstance);
 
-        const AuthentifiInstance = new web3.eth.Contract(
-          contractABI,
-          contractAddress
-        );
-        setContractInstance(AuthentifiInstance);
-
-        window.ethereum.on("accountsChanged", async () => {
-          const accounts = await web3.eth.getAccounts();
-          console.log(accounts[0]);
-          /* set account 1 to React state */
-          setConnectedAccount(accounts[0]);
-
-          // store the contract instance and account address over global state
-          const dispatch = useDispatch();
-          dispatch(
-            loadstates({
-              connectedAddress: connectedAccount,
-              instance: contractInstance,
-            })
-          );
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
+  //       window.ethereum.on("accountsChanged", async () => {
+  //         const accounts = await web3.eth.getAccounts();
+  //         // console.log(accounts[0]);
+  //         /* set account 1 to React state */
+  //         setConnectedAccount(accounts[0]);
+  //       });
+  //       // store the contract instance and account address over global state
+  //       // console.log("connectedAccount", account);
+  //       // console.log("contractInstance", AuthentifiInstance);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  // };
   return (
     <div className="body w-full h-screen">
       <Head>

@@ -5,8 +5,8 @@ import contractReducer from "./slices/contractSlice";
 
 export const store = configureStore({
   reducer: {
+    contract: contractReducer.reducer,
     auth: authReducer.reducer,
     notificationSlice: notificationReducer.reducer,
-    contract: contractReducer.reducer,
   },
 });

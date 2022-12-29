@@ -1,25 +1,33 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { signin } from "../../slices/authSlice";
-
-const auth = () => {
+import { useDispatch, useSelector } from "react-redux";
+import { authActions, signin } from "../../slices/authSlice";
+const Login = ({ contractInfo }) => {
   const dispatch = useDispatch();
-  const [Type, setType] = useState("Customer");
+  // const [Type, setType] = useState("Customer");
   const [warning, setWarning] = useState(false);
-  const [data, setData] = useState({
-    account_address: "",
-    password: "",
-  });
+  // const [contractInstance, setContractInstance] = useState({});
+  // const [contractAddress, setContractAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const login = useSelector((state) => state.auth);
 
   const InputChange = (event) => {
-    setData({ ...data, [event.target.name]: event.target.value });
+    // setData({ ...data, [event.target.name]: event.target.value });
+    // dispatch(authActions.setName(event.target.value));
   };
 
-  const handleSignUp = (e) => {
-    e.preventDefault();
-    dispatch(signin(data));
+  const getCustomer = async () => {
+    const data = await contractInfo.contractInstace.methods
+      .getCustomer("a02674e97f56464092941ed87b61ad2e")
+      .call();
     console.log(data);
+  };
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    // dispatch(signin({ account_address: contractAddress, password: password }));
+    const customerData = await getCustomer();
+    // console.log("get Customer: ", customerData);
+    // console.log(data);
   };
 
   return (
@@ -39,8 +47,7 @@ const auth = () => {
                             type="text"
                             className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             name="account_address"
-                            value={data.account_address}
-                            onChange={InputChange}
+                            value={contractInfo.contractActiveAddress}
                             placeholder="Your current account address ..."
                             disabled
                           />
@@ -50,8 +57,8 @@ const auth = () => {
                             type="password"
                             className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             name="password"
-                            value={data.password}
-                            onChange={InputChange}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="Password"
                           />
                         </div>
@@ -117,4 +124,4 @@ const auth = () => {
   );
 };
 
-export default auth;
+export default Login;
