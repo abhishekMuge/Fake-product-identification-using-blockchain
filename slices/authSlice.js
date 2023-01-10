@@ -39,14 +39,13 @@ export const signup = (data) => {
         heading: "Pending",
       })
     );
-    const response = await fetch("http://localhost:8000/register", {
+    const response = await fetch("http://localhost:8000/api/user/register", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
     if (!response.ok) {
       dispatch(
         notificationAction.enableNotification({
@@ -79,7 +78,7 @@ export const signin = (data) => {
         heading: "Success",
       })
     );
-    let response = await fetch("http://localhost:8000/login", {
+    let response = await fetch("http://localhost:8000/api/user/login", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

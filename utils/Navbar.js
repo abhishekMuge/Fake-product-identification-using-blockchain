@@ -1,4 +1,6 @@
-const Navbar = () => (
+import Link from "next/link";
+
+const Navbar = ({ account_address }) => (
   <div className="flex flex-col w-64 h-screen py-8 bg-white border-r dark:bg-gray-800 dark:border-gray-600">
     <h2 className="text-3xl font-semibold text-center text-gray-800 dark:text-white">
       Authentifi
@@ -13,7 +15,8 @@ const Navbar = () => (
         John Doe
       </h4>
       <p className="mx-2 mt-1 text-sm font-medium text-gray-600 dark:text-gray-400 hover:underline">
-        0xB3621F....46421Fe
+        {/* {account_address.substr(0, 6) + "..." + account_address.substr(36, 6)} */}
+        390794798...9947
       </p>
     </div>
     <div className="flex flex-col justify-between flex-1 mt-6">
@@ -36,7 +39,9 @@ const Navbar = () => (
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
             />
           </svg>
-          <span className="mx-4 font-medium">All Products</span>
+          <Link href="/products" className="mx-4 font-medium">
+            All Products
+          </Link>
         </a>
         <a
           className="flex items-center justify-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -56,7 +61,9 @@ const Navbar = () => (
               d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span className="mx-4 font-medium">Add Product</span>
+          <Link href="/add_products" className="mx-4 font-medium">
+            Add Product
+          </Link>
         </a>
         <a
           className="flex items-center justify-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"
@@ -70,7 +77,9 @@ const Navbar = () => (
           >
             <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
           </svg>
-          <span className="mx-4 font-medium">Transfer Ownership</span>
+          <Link href="transfer" className="mx-4 font-medium">
+            Transfer Ownership
+          </Link>
         </a>
         <a
           className="flex items-center justify-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-200 transform dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-gray-200 hover:text-gray-700"

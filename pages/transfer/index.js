@@ -1,4 +1,4 @@
-export default function transferProduct() {
+export default function Transfer() {
   return (
     <div>
       <h1 className="w-full text-3xl font-bold">Transfer Product</h1>

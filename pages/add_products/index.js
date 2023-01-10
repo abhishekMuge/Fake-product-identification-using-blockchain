@@ -1,7 +1,53 @@
+import { useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { v4 as uuidv4 } from "uuid";
 
-export default function addProducts() {
+export default function addProducts({ contractInfo }) {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+  const [prodType, setProdType] = useState("");
+  const [request, setRequest] = useState({
+    name: "",
+    manufacturerId: "",
+    manufactuer_address: "",
+    ownerId: "",
+    owner_address: "",
+  });
+
+  const InputChanges = (event) => {
+    event.preventDefault();
+    setRequest({ ...request, [event.target.name]: event.target.value });
+  };
+
+  const registerProduct = async () => {
+    let isUnique = prodType == "antique";
+    const prodId = uuidv4();
+    const productSetRequest = await contractInfo.contractInstace.methods
+      .registerProduct(
+        prodId,
+        request.name,
+        request.manufacturerId,
+        prodType,
+        isUnique,
+        request.ownerId,
+        request.manufactuer_address
+      )
+      .send({
+        from: contractInfo.contractActiveAddress,
+      });
+
+    const productGetRequest = await contractInfo.contractInstace.methods
+      .getProduct(prodId)
+      .call();
+
+    console.log(productGetRequest);
+    return productGetRequest;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await registerProduct();
+    console.log("Product is register successfully", res);
+  };
 
   return (
     <div>
@@ -16,19 +62,23 @@ export default function addProducts() {
             type="text"
             id="name"
             name="name"
+            value={request.name}
+            onChange={(e) => InputChanges(e)}
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
           />
         </div>
 
         <div className="flex mb-4">
-          <div class="relative mb-4 mr-5 w-1/5">
+          <div class="relative mb-4 mr-5 w-1/3">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Product No.
+              Owner ID
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="ownerId"
+              name="ownerId"
+              value={request.ownerId}
+              onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -39,27 +89,24 @@ export default function addProducts() {
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="owner_address"
+              name="owner_address"
+              value={request.owner_address}
+              onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
-            <div>
-              <input
-                type="checkbox"
-                className="border-gray-300 rounded mr-3 mt-2"
-              />
-              <span className="text-slate-600">Same as current Owner</span>
-            </div>
           </div>
 
           <div class="relative mb-4 mr-5 w-2/5">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Issuers Address
+              Manufacturer Address
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="manufactuer_address"
+              name="manufactuer_address"
+              value={request.manufactuer_address}
+              onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -68,12 +115,14 @@ export default function addProducts() {
         <div className="flex mb-4">
           <div class="relative mb-4 mr-5 w-2/5">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Issuers Name
+              Manufacturer ID
             </label>
             <input
               type="text"
-              id="name"
-              name="name"
+              id="manufacturerId"
+              name="manufacturerId"
+              value={request.manufacturerId}
+              onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>
@@ -84,17 +133,20 @@ export default function addProducts() {
                 htmlFor="countries"
                 className="leading-7 text-md text-gray-600"
               >
-                Select an option
+                Type of Product
               </label>
               <select
                 id="countries"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                onChange={(e) => {
+                  setProdType(e.target.value);
+                }}
               >
-                <option selected>Choose a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
+                <option selected>Choose a Type of Product</option>
+                <option value="Antique">Antique</option>
+                <option value="sculpture">sculpture</option>
+                <option value="Jwellary">Jwellary</option>
+                <option value="painting">painting</option>
               </select>
             </div>
           </div>
@@ -126,6 +178,12 @@ export default function addProducts() {
             </svg>
           </div>
         </section>
+        <button
+          onClick={(e) => handleSubmit(e)}
+          className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
+        >
+          Large block button
+        </button>
       </form>
     </div>
   );

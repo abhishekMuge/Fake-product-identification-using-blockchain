@@ -2,32 +2,39 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions, signin } from "../../slices/authSlice";
+import hashMD5 from "md5";
+import { useRouter } from "next/router";
+
 const Login = ({ contractInfo }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+
   // const [Type, setType] = useState("Customer");
-  const [warning, setWarning] = useState(false);
-  // const [contractInstance, setContractInstance] = useState({});
-  // const [contractAddress, setContractAddress] = useState("");
+  // const [warning, setWarning] = useState(false);
   const [password, setPassword] = useState("");
   const login = useSelector((state) => state.auth);
 
-  const InputChange = (event) => {
-    // setData({ ...data, [event.target.name]: event.target.value });
-    // dispatch(authActions.setName(event.target.value));
-  };
-
   const getCustomer = async () => {
+    const hashKey = hashMD5(contractInfo.contractActiveAddress);
     const data = await contractInfo.contractInstace.methods
-      .getCustomer("a02674e97f56464092941ed87b61ad2e")
+      .getCustomer(hashKey)
       .call();
     console.log(data);
   };
   const handleSignUp = async (e) => {
     e.preventDefault();
-    // dispatch(signin({ account_address: contractAddress, password: password }));
+    dispatch(
+      signin({
+        account_address: contractInfo.contractActiveAddress,
+        password: password,
+      })
+    );
+    dispatch(authActions.setName(Type));
+
     const customerData = await getCustomer();
     // console.log("get Customer: ", customerData);
     // console.log(data);
+    router.push("/products");
   };
 
   return (

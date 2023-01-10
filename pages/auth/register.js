@@ -3,9 +3,13 @@ import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { signup } from "../../slices/authSlice";
 // import { loadContract } from "../../service/loadContract";
+import hashMD5 from "md5";
+import { useRouter } from "next/router";
+
 import { ethers } from "ethers";
 const Register = ({ contractInfo }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [Type, setType] = useState("Customer");
   const [warning, setWarning] = useState(false);
   // const [contractAddress, setContractAddress] = useState("");
@@ -32,25 +36,28 @@ const Register = ({ contractInfo }) => {
     e.preventDefault();
     let req = { ...data, account_address: contractInfo.contractActiveAddress };
     // console.log(req);
-    // dispatch(signup(data));
+    dispatch(signup(req));
     // console.log(data);
     const isSuccess = await saveStateToContract();
     console.log("create customer status: ", isSuccess);
+    router.push("/products");
   };
 
   const saveStateToContract = async () => {
     // console.log(contractInfo.contractInstace.methods);
+    const hashKey = hashMD5(contractInfo.contractActiveAddress);
     const res = await contractInfo.contractInstace.methods
       .createCustomer(
         data.name,
         data.type_of,
         data.phone_number,
-        "a02674e97f56464092941ed87b61ad2e",
+        hashKey,
         data.location
       )
       .send({
         from: contractInfo.contractActiveAddress,
       });
+    return res;
 
     // const customer = await contractInfo.contractInstace.methods
     //   .getCustomer("63ac1b147ce238b1a857e454")
