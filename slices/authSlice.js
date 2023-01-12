@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { notificationAction } from "./notificationSlice";
+import Router from "next/router";
 
 const authSlice = createSlice({
   name: "auth",
@@ -33,12 +34,7 @@ export const authActions = authSlice.actions;
 
 export const signup = (data) => {
   return async (dispatch) => {
-    dispatch(
-      notificationAction.enableNotification({
-        message: "Registering User !",
-        heading: "Pending",
-      })
-    );
+    console.log("Pending")
     const response = await fetch("http://localhost:8000/api/user/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -46,38 +42,21 @@ export const signup = (data) => {
         "Content-Type": "application/json",
       },
     });
-    if (!response.ok) {
-      dispatch(
-        notificationAction.enableNotification({
-          message: "User notification registration failed !",
-          heading: "Failed",
-        })
-      );
-      setTimeout(() => {
-        dispatch(notificationAction.disableNotification());
-      }, 2000);
+    let json = await response.json();
+    console.log(json);
+    if (json.status == 400) {
+      console.log(json.message)
+      Router.push("/auth/login")
     } else {
-      dispatch(
-        notificationAction.enableNotification({
-          message: "User registered successfully !",
-          heading: "Success",
-        })
-      );
-      setTimeout(() => {
-        dispatch(notificationAction.disableNotification());
-      }, 2000);
+      console.log("Success")
     }
   };
 };
 
 export const signin = (data) => {
   return async (dispatch) => {
-    dispatch(
-      notificationAction.enableNotification({
-        message: "Logging In",
-        heading: "Success",
-      })
-    );
+    console.log("Logging in")
+    console.log(data);
     let response = await fetch("http://localhost:8000/api/user/login", {
       method: "POST",
       body: JSON.stringify(data),
@@ -87,27 +66,13 @@ export const signin = (data) => {
     });
     let json = await response.json();
     console.log(json);
+    console.log(response)
     if (!response.ok) {
-      dispatch(
-        notificationAction.enableNotification({
-          message: "User Login failed !",
-          heading: "Failed",
-        })
-      );
-      setTimeout(() => {
-        dispatch(notificationAction.disableNotification());
-      }, 2000);
+      console.log("User Login failed")
     } else {
-      dispatch(
-        notificationAction.enableNotification({
-          message: "User login Successful !",
-          heading: "Success",
-        })
-      );
+      console.log("User Login Successfull")
       dispatch(authActions.login({ userData: json.data.user }));
-      setTimeout(() => {
-        dispatch(notificationAction.disableNotification());
-      }, 2000);
+      Router.push("/products");
     }
   };
 };
