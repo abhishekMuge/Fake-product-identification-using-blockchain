@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const notificationSlice = createSlice({
-    name : "notificationAction",
+    name : "noti",
     initialState : {
         showNoti : false,
         heading : "",
@@ -19,5 +19,5 @@ const notificationSlice = createSlice({
         }
     }
 })
-export const notificationAction = notificationSlice.actions;
+export const notiAction = notificationSlice.actions;
 export default notificationSlice;
