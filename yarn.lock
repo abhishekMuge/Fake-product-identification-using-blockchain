@@ -4483,6 +4483,11 @@
     "tar" "^4.0.2"
     "xhr-request" "^1.0.1"
 
+"sweetalert2@^11.7.0":
+  "integrity" "sha512-ICeeGhIsmzCwRD/XjZrBYk+SDQzwfGvIdxkeSpPFgkPwbnoaGnaZ4cOb7AD/iC5o50snQUF6w23MfFAGk1+J7A=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.7.0.tgz"
+  "version" "11.7.0"
+
 "tar@^4.0.2":
   "version" "4.4.19"
   dependencies:

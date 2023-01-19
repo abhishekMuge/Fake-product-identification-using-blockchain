@@ -24,6 +24,7 @@
     "react-redux": "^8.0.5",
     "reactjs-popup": "^2.0.5",
     "redux": "^4.2.0",
+    "sweetalert2": "^11.7.0",
     "uuid": "^9.0.0",
     "web3": "^1.8.0"
   },
