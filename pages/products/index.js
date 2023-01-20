@@ -1,4 +1,22 @@
-function allProducts() {
+import { useEffect } from "react";
+import hashMD5 from "md5";
+
+function allProducts({ contractInfo }) {
+  useEffect(() => {
+    fetchUserProducts()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const fetchUserProducts = async () => {
+    const hashKey = hashMD5(contractInfo.contractActiveAddress);
+    const userProducts = await contractInfo.contractInstace.methods
+      .getCustomerProducts(hashKey)
+      .call();
+    console.log(userProducts);
+    return userProducts;
+  };
+
   return (
     <div>
       <section className="flex flex-col m-2 ">

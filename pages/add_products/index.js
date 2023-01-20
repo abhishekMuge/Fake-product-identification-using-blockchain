@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
+import { Web3Storage } from "web3.storage";
 
 export default function addProducts({ contractInfo }) {
+  const client = new Web3Storage({
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUzQjBiNGEzNzljNjAwM2UwRDcxNmIzZDVkNjU5ODBDODg4OWY0NDkiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzM2MDk1NTA1ODQsIm5hbWUiOiJBdXRoZW50aWZpLXN0b3JhZ2UifQ.cCj6Y5tSH5gNr782a01dTYbOGKcI166YMbjVo5M9zKg",
+  });
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
   const [prodType, setProdType] = useState("");
   const [request, setRequest] = useState({
@@ -18,9 +23,8 @@ export default function addProducts({ contractInfo }) {
     setRequest({ ...request, [event.target.name]: event.target.value });
   };
 
-  const registerProduct = async () => {
+  const registerProduct = async (prodId) => {
     let isUnique = prodType == "antique";
-    const prodId = uuidv4();
     const productSetRequest = await contractInfo.contractInstace.methods
       .registerProduct(
         prodId,
@@ -39,14 +43,27 @@ export default function addProducts({ contractInfo }) {
       .getProduct(prodId)
       .call();
 
-    console.log(productGetRequest);
+    console.log(prodId, productGetRequest);
     return productGetRequest;
+  };
+
+  const uploadDocumentToIPFS = async (prodId) => {
+    const rootCid = await client.put(acceptedFiles);
+    console.log(rootCid);
+    const setUploadFiles = await contractInfo.contractInstace.methods
+      .uploadDocuments(prodId, [rootCid])
+      .call();
+    console.log(setUploadFiles);
+    // const info = await client.status(rootCid);
+    // console.log(info);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await registerProduct();
+    const prodId = uuidv4();
+    const res = await registerProduct(prodId);
     console.log("Product is register successfully", res);
+    await uploadDocumentToIPFS(prodId);
   };
 
   return (
