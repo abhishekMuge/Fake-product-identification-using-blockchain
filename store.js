@@ -6,6 +6,5 @@ export const store = configureStore({
   reducer: {
     contract: contractReducer.reducer,
     auth: authReducer.reducer,
-    notiSlice: notiReducer.reducer,
   },
 });
