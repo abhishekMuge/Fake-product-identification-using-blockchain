@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { notiAction } from "./notificationSlice";
+import { createSlice } from "@reduxjs/toolkit"; 
 import Router from "next/router";
+import Swal from 'sweetalert2'
 
 const authSlice = createSlice({
   name: "auth",
@@ -34,6 +34,7 @@ export const authActions = authSlice.actions;
 
 export const signup = (data) => {
   return async (dispatch) => {
+<<<<<<< HEAD
     console.log("Pending");
     dispatch(
       notiAction.enableNotification({
@@ -41,6 +42,9 @@ export const signup = (data) => {
         heading: "Pending",
       })
     );
+=======
+    console.log("Pending")
+>>>>>>> 98e0289936d17181b022376e42a98cc5303a9465
     const response = await fetch("http://localhost:8000/api/user/register", {
       method: "POST",
       body: JSON.stringify(data),
@@ -50,6 +54,7 @@ export const signup = (data) => {
     });
     let json = await response.json();
     console.log(json);
+<<<<<<< HEAD
     if (json.status == 401) {
       alert("Password not matched!");
       dispatch(
@@ -76,12 +81,37 @@ export const signup = (data) => {
       }, 2000);
       console.log("Success");
       Router.push("/auth/login");
+=======
+    if (json.status == 400) {
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'failed',
+        title: 'User Registration Failed',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      console.log(json.message)
+
+      Router.push("/auth/login")
+    } 
+    else {
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'success',
+        title: 'User Registration Successfully',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      console.log("Success")
+      Router.push("/auth/login")
+>>>>>>> 98e0289936d17181b022376e42a98cc5303a9465
     }
   };
 };
 
 export const signin = (data) => {
   return async (dispatch) => {
+<<<<<<< HEAD
     console.log("Logging in");
     dispatch(
       notiAction.enableNotification({
@@ -89,6 +119,15 @@ export const signin = (data) => {
         heading: "Success",
       })
     );
+=======
+    console.log("Logging in")
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Logging In',
+      showConfirmButton: false,
+    })
+>>>>>>> 98e0289936d17181b022376e42a98cc5303a9465
     console.log(data);
     let response = await fetch("http://localhost:8000/api/user/login", {
       method: "POST",
@@ -101,6 +140,7 @@ export const signin = (data) => {
     console.log(json);
     console.log(response);
     if (!response.ok) {
+<<<<<<< HEAD
       console.log("User Login failed");
       dispatch(
         notiAction.enableNotification({
@@ -119,10 +159,27 @@ export const signin = (data) => {
           heading: "Success",
         })
       );
+=======
+      console.log("User Login failed")
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'failed',
+        title: 'User Login Failed',
+        showConfirmButton: false,
+        timer: 2000
+      })
+    } 
+    else {
+      Swal.fire({
+        position: 'bottom-end',
+        icon: 'success',
+        title: 'User Logged In',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      console.log("User Login Successfull")
+>>>>>>> 98e0289936d17181b022376e42a98cc5303a9465
       dispatch(authActions.login({ userData: json.data.user }));
-      setTimeout(() => {
-        dispatch(notiAction.disableNotification());
-      }, 2000);
       Router.push("/products");
     }
   };
