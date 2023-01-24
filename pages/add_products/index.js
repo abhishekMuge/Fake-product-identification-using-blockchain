@@ -38,21 +38,16 @@ export default function addProducts({ contractInfo }) {
       .send({
         from: contractInfo.contractActiveAddress,
       });
-
-    const productGetRequest = await contractInfo.contractInstace.methods
-      .getProduct(prodId)
-      .call();
-
-    console.log(prodId, productGetRequest);
-    return productGetRequest;
   };
 
   const uploadDocumentToIPFS = async (prodId) => {
     const rootCid = await client.put(acceptedFiles);
     console.log(rootCid);
     const setUploadFiles = await contractInfo.contractInstace.methods
-      .uploadDocuments(prodId, [rootCid])
-      .call();
+      .uploadDocuments(prodId, rootCid)
+      .send({
+        from: contractInfo.contractActiveAddress,
+      });
     console.log(setUploadFiles);
     // const info = await client.status(rootCid);
     // console.log(info);
@@ -62,8 +57,11 @@ export default function addProducts({ contractInfo }) {
     e.preventDefault();
     const prodId = uuidv4();
     const res = await registerProduct(prodId);
-    console.log("Product is register successfully", res);
     await uploadDocumentToIPFS(prodId);
+    const productGetRequest = await contractInfo.contractInstace.methods
+      .getProduct(prodId)
+      .call();
+    console.log(productGetRequest);
   };
 
   return (

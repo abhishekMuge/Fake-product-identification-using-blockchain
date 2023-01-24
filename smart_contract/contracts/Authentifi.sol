@@ -18,7 +18,7 @@ contract Authentifi {
         string query;
         string message;
         address issuedBy;
-        string date;
+        uint256 date;
         string productcode;
         bool isCompleted;
     }
@@ -33,7 +33,7 @@ contract Authentifi {
         string[] logsId;
         string type_of;
         bool is_antique;
-        string[] product_certificates;
+        string product_certificates;
         bool isRegister;
     }
 
@@ -126,7 +126,7 @@ contract Authentifi {
             address,
             string memory,
             bool,
-            string[] memory,
+            string memory,
             string[] memory
         )
     {
@@ -146,7 +146,7 @@ contract Authentifi {
 
     function uploadDocuments(
         string memory _uuid,
-        string[] memory _product_certificates
+        string memory _product_certificates
     ) public returns (string memory) {
         if (product_db[_uuid].isRegister) {
             product_db[_uuid].product_certificates = _product_certificates;
@@ -158,54 +158,46 @@ contract Authentifi {
 
     function changeOwner(
         string memory _uuid,
-        string memory _log_uuid,
         string memory _prev_owner_id,
-        string memory _new_owner_id,
-        string memory _date,
+        address _new_owner_address,
+        string memory _new_owner_id
+    ) public returns (string memory) {
+        product_db[_uuid].ownerId = _new_owner_id;
+        product_db[_uuid].owner_address = _new_owner_address;
+
+        //remove code from old customer space and add to new customer space
+        customer_db[_new_owner_id].codes.push(_uuid);
+        //remove from old customer
+        uint256 len = customer_db[_prev_owner_id].codes.length - 1;
+        uint256 idx;
+        for (uint256 i = 0; i <= len; i++) {
+            if (compareStrings(customer_db[_prev_owner_id].codes[i], _uuid)) {
+                idx = i;
+                break;
+            }
+        }
+        string memory lastEle = customer_db[_prev_owner_id].codes[len];
+        customer_db[_prev_owner_id].codes[idx] = lastEle;
+        customer_db[_prev_owner_id].codes.pop();
+        return "Success";
+    }
+
+    function createProductLog(
+        string memory _prod_uuid,
+        string memory _log_uuid,
         string memory _query,
         string memory _message
     ) public returns (string memory) {
-        // create log instance
-        TransactionLog memory log;
-        //check if product is avaliable
-        if (product_db[_uuid].isRegister) {
-            product_db[_uuid].ownerId = _new_owner_id;
-            product_db[_uuid].owner_address = customer_db[_new_owner_id]
-                .account_address;
-
-            log.query = _query;
-            log.message = _message;
-            log.issuedBy = msg.sender;
-            log.date = _date;
-            log.productcode = _uuid;
-            log.isCompleted = true;
-            logs_db[_log_uuid] = log;
-            //update log in log db
-            product_db[_uuid].logsId.push(_log_uuid);
-
-            //remove code from old customer space and add to new customer space
-            customer_db[_new_owner_id].codes.push(_uuid);
-
-            //remove from old customer
-            uint256 len = customer_db[_prev_owner_id].codes.length - 1;
-            uint256 idx;
-            for (uint256 i = 0; i <= len; i++) {
-                if (
-                    compareStrings(customer_db[_prev_owner_id].codes[i], _uuid)
-                ) {
-                    idx = i;
-                    break;
-                }
-            }
-            string memory lastEle = customer_db[_prev_owner_id].codes[len];
-            customer_db[_prev_owner_id].codes[idx] = lastEle;
-
-            customer_db[_prev_owner_id].codes.pop();
-
-            return "Successful!";
-        }
-        return
-            "Give hash key has not associated with any products in blockchain";
+        TransactionLog memory Log;
+        Log.query = _query;
+        Log.message = _message;
+        Log.issuedBy = msg.sender;
+        Log.date = block.timestamp;
+        Log.productcode = _prod_uuid;
+        Log.isCompleted = true;
+        logs_db[_log_uuid] = Log;
+        product_db[_prod_uuid].logsId.push(_log_uuid);
+        return "Log has been successfully recorded";
     }
 
     function compareStrings(string memory a, string memory b)

@@ -8,32 +8,17 @@ export const abi = [
       },
       {
         internalType: "string",
-        name: "_log_uuid",
-        type: "string",
-      },
-      {
-        internalType: "string",
         name: "_prev_owner_id",
         type: "string",
       },
       {
+        internalType: "address",
+        name: "_new_owner_address",
+        type: "address",
+      },
+      {
         internalType: "string",
         name: "_new_owner_id",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_date",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_query",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "_message",
         type: "string",
       },
     ],
@@ -82,6 +67,40 @@ export const abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_prod_uuid",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_log_uuid",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_query",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_message",
+        type: "string",
+      },
+    ],
+    name: "createProductLog",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
       },
     ],
     stateMutability: "nonpayable",
@@ -191,9 +210,9 @@ export const abi = [
         type: "bool",
       },
       {
-        internalType: "string[]",
+        internalType: "string",
         name: "",
-        type: "string[]",
+        type: "string",
       },
       {
         internalType: "string[]",
@@ -261,9 +280,9 @@ export const abi = [
         type: "string",
       },
       {
-        internalType: "string[]",
+        internalType: "string",
         name: "_product_certificates",
-        type: "string[]",
+        type: "string",
       },
     ],
     name: "uploadDocuments",

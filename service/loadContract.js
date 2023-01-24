@@ -1,12 +1,12 @@
 import Web3 from "web3";
-import { abi } from "../Testabi";
+import Contract from "../smart_contract/artifacts/contracts/Authentifi.sol/Authentifi.json";
 
 let web3 = undefined;
 let contractActiveAddress = undefined;
 let contractInstace = undefined;
 
-const contractAddress = "0xdDbb8ba0bf4eCbC081Ceba8794d94420cA5CcC8b";
-const contractABI = abi;
+const contractAddress = "0x5ee8a2Df796f3c9149F2AaA3bF64b07Dc39e1c94";
+const contractABI = Contract.abi;
 
 export const loadContract = async () => {
   if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {

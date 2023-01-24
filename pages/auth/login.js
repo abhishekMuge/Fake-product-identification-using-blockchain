@@ -33,7 +33,8 @@ const Login = ({ contractInfo }) => {
 
     const customerData = await getCustomer();
     console.log("get Customer: ", customerData);
-    // console.log(data);    
+    // console.log(data);
+    router.push("/products");
   };
 
   return (

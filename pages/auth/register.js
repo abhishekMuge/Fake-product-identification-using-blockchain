@@ -16,7 +16,7 @@ const Register = ({ contractInfo }) => {
   // const [contractInstance, setContractInstance] = useState({});
   const [data, setData] = useState({
     name: "",
-    type_of: Type,    
+    type_of: Type,
     phone_number: "",
     password: "",
     location: "",
@@ -36,11 +36,10 @@ const Register = ({ contractInfo }) => {
     e.preventDefault();
     let req = { ...data, account_address: contractInfo.contractActiveAddress };
     // console.log(req);
-    dispatch(signup(req));
-    // console.log(data);
-    // const isSuccess = await saveStateToContract();
-    // console.log("create customer status: ", isSuccess);
-    // router.push("/products");
+    // dispatch(signup(req));
+    const isSuccess = await saveStateToContract();
+    console.log("create customer status: ", isSuccess);
+    router.push("/products");
   };
 
   const saveStateToContract = async () => {
@@ -84,7 +83,7 @@ const Register = ({ contractInfo }) => {
                             name="name"
                             value={data.name}
                             onChange={InputChange}
-                            placeholder="Enter your Name"                          
+                            placeholder="Enter your Name"
                           />
                         </div>
                         <div className="mb-4">
