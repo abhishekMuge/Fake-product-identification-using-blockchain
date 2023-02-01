@@ -26,6 +26,7 @@ contract Authentifi {
     struct Products {
         string uuid;
         string name;
+        string description;
         string ownerId;
         address owner_address;
         string manufacturerId;
@@ -92,6 +93,7 @@ contract Authentifi {
     function registerProduct(
         string memory _uuid,
         string memory _name,
+        string memory _description,
         string memory _manufacturerId,
         string memory _type_of,
         bool _is_antique,
@@ -101,6 +103,7 @@ contract Authentifi {
         //register new product placed product under its db instance
         Products memory newProduct;
         newProduct.name = _name;
+        newProduct.description = _description;
         newProduct.manufacturerId = _manufacturerId;
         newProduct.manufactuer_address = _manufacturer_address;
         newProduct.type_of = _type_of;
@@ -121,6 +124,7 @@ contract Authentifi {
         returns (
             string memory,
             string memory,
+            string memory,
             address,
             string memory,
             address,
@@ -133,6 +137,7 @@ contract Authentifi {
         Products memory prod = product_db[_uuid];
         return (
             prod.name,
+            prod.description,
             prod.ownerId,
             prod.owner_address,
             prod.manufacturerId,
@@ -200,6 +205,26 @@ contract Authentifi {
         return "Log has been successfully recorded";
     }
 
+    function getProductLog(string memory _uuid)
+        public
+        view
+        returns (
+            string memory,
+            string memory,
+            address,
+            uint256,
+            string memory
+        )
+    {
+        return (
+            logs_db[_uuid].query,
+            logs_db[_uuid].message,
+            logs_db[_uuid].issuedBy,
+            logs_db[_uuid].date,
+            logs_db[_uuid].productcode
+        );
+    }
+
     function compareStrings(string memory a, string memory b)
         internal
         pure
@@ -208,3 +233,5 @@ contract Authentifi {
         return keccak256(abi.encodePacked(a)) == keccak256(abi.encodePacked(b));
     }
 }
+
+// Current Contract Address: 0xE7a0D047279E13cd17803da2cF70167940a6243b

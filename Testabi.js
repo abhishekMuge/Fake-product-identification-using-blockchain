@@ -185,6 +185,11 @@ export const abi = [
         type: "string",
       },
       {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
         internalType: "address",
         name: "",
         type: "address",
@@ -230,9 +235,53 @@ export const abi = [
         name: "_uuid",
         type: "string",
       },
+    ],
+    name: "getProductLog",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_uuid",
+        type: "string",
+      },
       {
         internalType: "string",
         name: "_name",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "_description",
         type: "string",
       },
       {
