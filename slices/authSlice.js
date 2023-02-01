@@ -50,7 +50,7 @@ export const signup = (data) => {
         icon: "failed",
         title: "User Registration Failed",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2500,
       });
       console.log(json.message);
 
@@ -61,7 +61,7 @@ export const signup = (data) => {
         icon: "success",
         title: "User Registration Successfully",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2500,
       });
       console.log("Success");
       Router.push("/auth/login");
@@ -72,12 +72,6 @@ export const signup = (data) => {
 export const signin = (data) => {
   return async (dispatch) => {
     console.log("Logging in");
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Logging In",
-      showConfirmButton: false,
-    });
     console.log(data);
     let response = await fetch("http://localhost:8000/api/user/login", {
       method: "POST",
@@ -96,7 +90,7 @@ export const signin = (data) => {
         icon: "failed",
         title: "User Login Failed",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2500,
       });
     } else {
       Swal.fire({
@@ -104,7 +98,7 @@ export const signin = (data) => {
         icon: "success",
         title: "User Logged In",
         showConfirmButton: false,
-        timer: 2000,
+        timer: 2500,
       });
       console.log("User Login Successfull");
       dispatch(authActions.login({ userData: json.data.user }));
