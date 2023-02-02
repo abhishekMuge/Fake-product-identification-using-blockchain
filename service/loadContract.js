@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { abi } from "../smart_contract/artifacts/contracts/Authentifi.sol/Authentifi.json";
+import { abi } from "../Testabi";
 
 let web3 = undefined;
 let contractActiveAddress = undefined;

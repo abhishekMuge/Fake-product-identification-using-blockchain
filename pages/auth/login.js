@@ -23,18 +23,18 @@ const Login = ({ contractInfo }) => {
   };
   const handleSignUp = async (e) => {
     e.preventDefault();
-    // dispatch(
-    //   signin({
-    //     account_address: contractInfo.contractActiveAddress,
-    //     password: password,
-    //   })
-    // );
+    dispatch(
+      signin({
+        account_address: contractInfo.contractActiveAddress,
+        password: password,
+      })
+    );
     // dispatch(authActions.setName(Type));
 
     const customerData = await getCustomer();
     console.log("get Customer: ", customerData);
     // console.log(data);
-    router.push("/products");
+    // router.push("/products");
   };
 
   return (

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Router from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 const authSlice = createSlice({
@@ -9,8 +10,12 @@ const authSlice = createSlice({
     userData: {},
     name: "",
     user_id: "",
+    registerUserStatus: false,
   },
   reducers: {
+    registerUserStateChange: (state, action) => {
+      state.registerUserStatus = action.payload.status;
+    },
     login: (state, action) => {
       state.loggedIn = true;
       state.userData = action.payload.userData;
@@ -44,27 +49,27 @@ export const signup = (data) => {
     });
     let json = await response.json();
     console.log(json);
-    if (json.status == 400) {
+    if (json.status == 400 || response.status == 400) {
       Swal.fire({
-        position: "bottom-end",
-        icon: "failed",
-        title: "User Registration Failed",
+        position: "center",
+        icon: "warning",
+        html: '<b> User Register failed </b>',
         showConfirmButton: false,
         timer: 2500,
+        width: 300,
       });
-      console.log(json.message);
-
-      Router.push("/auth/login");
+      dispatch(authActions.registerUserStateChange({status: false}));
     } else {
       Swal.fire({
-        position: "bottom-end",
+        position: "center",
         icon: "success",
-        title: "User Registration Successfully",
+        html: '<b> User Register Successfully</b>',
         showConfirmButton: false,
         timer: 2500,
       });
       console.log("Success");
       Router.push("/auth/login");
+      dispatch(authActions.registerUserStateChange({ status: true }));
     }
   };
 };
@@ -81,22 +86,26 @@ export const signin = (data) => {
       },
     });
     let json = await response.json();
+    console.log("json")
     console.log(json);
+    console.log("response")
     console.log(response);
-    if (!response.ok) {
+    if (json.status == 400 || response.status == 400) {
+      // Router.push("/auth/login");
       console.log("User Login failed");
       Swal.fire({
-        position: "bottom-end",
-        icon: "failed",
-        title: "User Login Failed",
+        position: "center",
+        icon: "warning",
+        html: '<b> User Logged In failed </b>',
         showConfirmButton: false,
         timer: 2500,
+        width: 300,
       });
     } else {
       Swal.fire({
-        position: "bottom-end",
+        position: "center",
         icon: "success",
-        title: "User Logged In",
+        html: '<b> User Logged In Successfully</b>',
         showConfirmButton: false,
         timer: 2500,
       });

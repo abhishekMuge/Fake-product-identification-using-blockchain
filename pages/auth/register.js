@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../slices/authSlice";
 // import { loadContract } from "../../service/loadContract";
 import hashMD5 from "md5";
@@ -21,6 +21,8 @@ const Register = ({ contractInfo }) => {
     password: "",
     location: "",
   });
+  const currentState = useSelector(state => state.auth)
+  // console.log(currentState)
 
   // const loadService = async () => {
   //   const res = await loadContract();
@@ -35,11 +37,13 @@ const Register = ({ contractInfo }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     let req = { ...data, account_address: contractInfo.contractActiveAddress };
-    // console.log(req);
-    // dispatch(signup(req));
-    const isSuccess = await saveStateToContract();
-    console.log("create customer status: ", isSuccess);
-    router.push("/products");
+    console.log(req);
+    dispatch(signup(req));
+    console.log(currentState)
+    if(currentState.registerUserStatus){
+      const isSuccess = await saveStateToContract();
+      console.log("create customer status: ", isSuccess);
+    }
   };
 
   const saveStateToContract = async () => {
