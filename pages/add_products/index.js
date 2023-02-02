@@ -16,6 +16,7 @@ export default function addProducts({ contractInfo }) {
     manufactuer_address: "",
     ownerId: "",
     owner_address: "",
+    prodDescription: "",
   });
 
   const InputChanges = (event) => {
@@ -29,6 +30,7 @@ export default function addProducts({ contractInfo }) {
       .registerProduct(
         prodId,
         request.name,
+        request.prodDescription,
         request.manufacturerId,
         prodType,
         isUnique,
@@ -166,6 +168,24 @@ export default function addProducts({ contractInfo }) {
             </div>
           </div>
         </div>
+
+        <div class="relative mb-4">
+          <label
+            for="prodDescription"
+            className="leading-7 text-md text-gray-600"
+          >
+            Product Description
+          </label>
+          <input
+            type="text"
+            id="prodDescription"
+            name="prodDescription"
+            value={request.prodDescription}
+            onChange={(e) => InputChanges(e)}
+            className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          />
+        </div>
+
         <span className="leading-7 text-md text-gray-600">
           Upload Certificates and Images
         </span>
@@ -197,7 +217,7 @@ export default function addProducts({ contractInfo }) {
           onClick={(e) => handleSubmit(e)}
           className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"
         >
-          Large block button
+          Register Product
         </button>
       </form>
     </div>

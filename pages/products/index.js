@@ -7,7 +7,7 @@ import DrawerComponent from "../../utils/Drawer";
 
 function allProducts({ contractInfo }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [prodCodes, setProdCodes] = useState([]);
+  const [customerProducts, setCustomerProducts] = useState({});
   const [currProd, setCurrProd] = useState([]);
 
   const [customerDrawerState, setcustomerDrawerState] = useState(false);
@@ -51,12 +51,21 @@ function allProducts({ contractInfo }) {
   };
 
   const fetchUserProducts = async () => {
+    let allProducts = {};
     const hashKey = hashMD5(contractInfo.contractActiveAddress);
     const userProducts = await contractInfo.contractInstace.methods
       .getCustomerProducts(hashKey)
       .call();
     console.log(userProducts);
-    setProdCodes(userProducts);
+    for (let i = 0; i < userProducts.length; i++) {
+      const prodDetails = await contractInfo.contractInstace.methods
+        .getProduct(userProducts[i])
+        .call();
+
+      allProducts[userProducts[i]] = prodDetails;
+    }
+    console.log(allProducts);
+    setCustomerProducts(allProducts);
   };
 
   return (

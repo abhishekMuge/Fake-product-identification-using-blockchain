@@ -14,6 +14,8 @@ const Register = ({ contractInfo }) => {
   const [warning, setWarning] = useState(false);
   // const [contractAddress, setContractAddress] = useState("");
   // const [contractInstance, setContractInstance] = useState({});
+
+  const currentState = useSelector((state) => state.auth);
   const [data, setData] = useState({
     name: "",
     type_of: Type,
@@ -21,7 +23,6 @@ const Register = ({ contractInfo }) => {
     password: "",
     location: "",
   });
-  const currentState = useSelector(state => state.auth)
   // console.log(currentState)
 
   // const loadService = async () => {
@@ -37,13 +38,15 @@ const Register = ({ contractInfo }) => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     let req = { ...data, account_address: contractInfo.contractActiveAddress };
-    console.log(req);
     dispatch(signup(req));
-    console.log(currentState)
-    if(currentState.registerUserStatus){
+
+    console.log(currentState);
+    if (currentState.registerUserStatus) {
       const isSuccess = await saveStateToContract();
       console.log("create customer status: ", isSuccess);
     }
+
+    router.push("/auth/login");
   };
 
   const saveStateToContract = async () => {

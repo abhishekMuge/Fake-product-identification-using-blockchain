@@ -53,23 +53,22 @@ export const signup = (data) => {
       Swal.fire({
         position: "center",
         icon: "warning",
-        html: '<b> User Register failed </b>',
+        html: "<b> User Register failed </b>",
         showConfirmButton: false,
         timer: 2500,
         width: 300,
       });
-      dispatch(authActions.registerUserStateChange({status: false}));
+      dispatch(authActions.registerUserStateChange({ status: false }));
     } else {
       Swal.fire({
         position: "center",
         icon: "success",
-        html: '<b> User Register Successfully</b>',
+        html: "<b> User Register Successfully</b>",
         showConfirmButton: false,
         timer: 2500,
       });
-      console.log("Success");
-      Router.push("/auth/login");
       dispatch(authActions.registerUserStateChange({ status: true }));
+      console.log("Success");
     }
   };
 };
@@ -86,9 +85,9 @@ export const signin = (data) => {
       },
     });
     let json = await response.json();
-    console.log("json")
+    console.log("json");
     console.log(json);
-    console.log("response")
+    console.log("response");
     console.log(response);
     if (json.status == 400 || response.status == 400) {
       // Router.push("/auth/login");
@@ -96,7 +95,7 @@ export const signin = (data) => {
       Swal.fire({
         position: "center",
         icon: "warning",
-        html: '<b> User Logged In failed </b>',
+        html: "<b> User Logged In failed </b>",
         showConfirmButton: false,
         timer: 2500,
         width: 300,
@@ -105,7 +104,7 @@ export const signin = (data) => {
       Swal.fire({
         position: "center",
         icon: "success",
-        html: '<b> User Logged In Successfully</b>',
+        html: "<b> User Logged In Successfully</b>",
         showConfirmButton: false,
         timer: 2500,
       });
