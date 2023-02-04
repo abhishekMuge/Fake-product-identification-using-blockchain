@@ -116,4 +116,19 @@ export const signin = (data) => {
   };
 };
 
+export const signout = (data) => {
+  return async (dispatch) => {    
+    dispatch(authActions.logout());   
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      html: '<b> User Logged Out Successfully</b>',
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    Router.push("auth/login");
+    
+  };
+};
+
 export default authSlice;

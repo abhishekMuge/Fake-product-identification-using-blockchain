@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 const Register = ({ contractInfo }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const Router = useRouter();
   const [Type, setType] = useState("Customer");
   const [warning, setWarning] = useState(false);
   // const [contractAddress, setContractAddress] = useState("");
@@ -188,6 +188,7 @@ const Register = ({ contractInfo }) => {
                             className="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
                             data-mdb-ripple="true"
                             data-mdb-ripple-color="light"
+                            onClick={() => Router.push("/auth/login")}
                           >
                             Login Here
                           </button>
