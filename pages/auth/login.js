@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 const Login = ({ contractInfo }) => {
   const dispatch = useDispatch();
-  const router = useRouter();
+  const Router = useRouter();
 
   // const [Type, setType] = useState("Customer");
   // const [warning, setWarning] = useState(false);
@@ -73,13 +73,15 @@ const Login = ({ contractInfo }) => {
                           <button
                             className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3"
                             type="submit"
-                            onClick={(e) => handleSignUp(e)}
+                            onClick={(e) => 
+                                handleSignUp(e)                                                              
+                            }
                             data-mdb-ripple="true"
                             data-mdb-ripple-color="light"
                             style={{
                               background:
                                 "linear-gradient(to right,#ee7724,#d8363a,#dd3675,#b44593)",
-                            }}
+                            }}                          
                           >
                             Log in
                           </button>
@@ -94,6 +96,7 @@ const Login = ({ contractInfo }) => {
                             className="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
                             data-mdb-ripple="true"
                             data-mdb-ripple-color="light"
+                            onClick={() => Router.push("/auth/register")}
                           >
                             Register Here
                           </button>
