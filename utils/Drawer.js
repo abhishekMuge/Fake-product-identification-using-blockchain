@@ -1,7 +1,7 @@
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 
-function DrawerComponent({ data, openState, toggleDrawer }) {
+function DrawerComponent({ data, openState, toggleDrawer, forSelector }) {
   return (
     <div>
       <Drawer
@@ -17,66 +17,25 @@ function DrawerComponent({ data, openState, toggleDrawer }) {
             </h1>
             <form>
               <div className="flex flex-col mb-4">
-                <div class="relative mb-2 mr-5 w-full">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value=""
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-                <div class="relative mb-2 mr-5 w-full">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value=""
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-                <div class="relative mb-2 mr-5 w-full">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value=""
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-                <div class="relative mb-2 mr-5 w-full">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value=""
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-                <div class="relative mb-2 mr-5 w-full">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value=""
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
+                {Object.entries(data).map(([key, val]) => {
+                  return (
+                    <div class="relative mb-2 mr-5 w-full">
+                      <label
+                        for={key}
+                        className="leading-7 text-md text-gray-600"
+                      >
+                        {key.toLocaleUpperCase()}
+                      </label>
+                      <input
+                        type="text"
+                        id={key}
+                        name={key}
+                        value={val}
+                        className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                      />
+                    </div>
+                  );
+                })}
               </div>
             </form>
           </div>

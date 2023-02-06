@@ -7,10 +7,12 @@ import DrawerComponent from "../../utils/Drawer";
 
 function allProducts({ contractInfo }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [customerProducts, setCustomerProducts] = useState({});
   const [currProd, setCurrProd] = useState([]);
-
+  const [prodCodes, setProdCodes] = useState([]);
   const [customerDrawerState, setcustomerDrawerState] = useState(false);
+  const [manufacturerDrawerState, setmanufacturerDrawerState] = useState(false);
   const [customerDetails, setcustomerDetails] = useState([]);
 
   useEffect(() => {
@@ -21,13 +23,18 @@ function allProducts({ contractInfo }) {
 
   const toggleDrawer = async (prodId) => {
     setIsOpen((prevState) => !prevState);
-    const prodDetails = await contractInfo.contractInstace.methods
-      .getProduct(prodId)
-      .call();
-    setCurrProd(prodDetails);
+    setCurrProd(customerProducts[prodId]);
   };
 
-  const userDrawerToggler = async (customerId) => {
+  const userDrawerToggler = async (customerId, forSelector) => {
+    // if (forSelector == "customer" && manufacturerDrawerState) {
+    //   setmanufacturerDrawerState((prevState) => !prevState);
+    //   setcustomerDrawerState((prevState) => !prevState);
+    // }
+    // if (forSelector == "manufacturer" && customerDrawerState) {
+    //   setmanufacturerDrawerState((prevState) => !prevState);
+    //   setcustomerDrawerState((prevState) => !prevState);
+    // }
     let titles = [
       "name",
       "type",
@@ -56,7 +63,7 @@ function allProducts({ contractInfo }) {
     const userProducts = await contractInfo.contractInstace.methods
       .getCustomerProducts(hashKey)
       .call();
-    console.log(userProducts);
+    setProdCodes(userProducts);
     for (let i = 0; i < userProducts.length; i++) {
       const prodDetails = await contractInfo.contractInstace.methods
         .getProduct(userProducts[i])
@@ -64,8 +71,18 @@ function allProducts({ contractInfo }) {
 
       allProducts[userProducts[i]] = prodDetails;
     }
-    console.log(allProducts);
+
+    // Object.entries(allProducts).forEach(([key, value]) => {
+    //   Object.values(allProducts[key]).forEach((key, val) => {
+    //     if (val == 0) {
+    //       console.log(key, val);
+    //     }
+    //   });
+    // });
+
+    // console.log(allProducts);
     setCustomerProducts(allProducts);
+    setIsLoading(false);
   };
 
   return (
@@ -120,18 +137,30 @@ function allProducts({ contractInfo }) {
                 </div>
                 <div class="relative mb-4 mr-5 w-1/3">
                   <label for="name" className="leading-7 text-md text-gray-600">
+                    Product Description
+                  </label>
+                  <input
+                    type="text"
+                    id="desc"
+                    name="desc"
+                    value={currProd[1]}
+                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  />
+                </div>
+                <div class="relative mb-4 mr-5 w-1/3">
+                  <label for="name" className="leading-7 text-md text-gray-600">
                     Owner ID
                   </label>
                   <input
                     type="text"
                     id="ownerId"
                     name="ownerId"
-                    value={currProd[1]}
+                    value={currProd[2]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                   <span
                     className="cursor-pointer text-red-400"
-                    onClick={() => userDrawerToggler(currProd[1])}
+                    onClick={() => userDrawerToggler(currProd[2], "customer")}
                   >
                     Get Owner Information
                   </span>
@@ -144,7 +173,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="owner_address"
                     name="owner_address"
-                    value={currProd[2]}
+                    value={currProd[3]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -158,10 +187,15 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="Manufacturer_id"
                     name="Manufacturer_id"
-                    value={currProd[3]}
+                    value={currProd[4]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
-                  <span className="cursor-pointer text-red-400">
+                  <span
+                    className="cursor-pointer text-red-400"
+                    onClick={() =>
+                      userDrawerToggler(currProd[4], "manufacturer")
+                    }
+                  >
                     Get Manufacturer Information
                   </span>
                 </div>
@@ -173,7 +207,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="Manufacturer_Address"
                     name="Manufacturer_Address"
-                    value={currProd[4]}
+                    value={currProd[5]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -185,7 +219,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="type"
                     name="type"
-                    value={currProd[5]}
+                    value={currProd[6]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -210,6 +244,14 @@ function allProducts({ contractInfo }) {
         data={customerDetails}
         openState={customerDrawerState}
         toggleDrawer={userDrawerToggler}
+        forSelector="customer"
+      />
+
+      <DrawerComponent
+        data={customerDetails}
+        openState={manufacturerDrawerState}
+        toggleDrawer={userDrawerToggler}
+        forSelector="manufacturer"
       />
 
       <section className="flex flex-col m-2 ">
@@ -266,37 +308,44 @@ function allProducts({ contractInfo }) {
           </div>
         </div>
         {/* search bar end here */}
-        <div className="w-3/4 flex flex wrap">
-          {prodCodes.map((item, index) => {
-            return (
-              <div
-                key={index}
-                onClick={() => toggleDrawer(item)}
-                className="cursor-pointer flex justify-center items-center w-36 h-36 border-2 mx-4 rounded-lg drop-shadow-xl"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
+        {!isLoading && (
+          <div className="w-3/4 flex flex wrap">
+            {prodCodes.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => toggleDrawer(item)}
+                  className="cursor-pointer flex flex-col justify-center items-center w-36 h-36 border-2 mx-4 rounded-lg drop-shadow-xl"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
-                  />
-                </svg>
-              </div>
-            );
-          })}
-        </div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
+                    />
+                  </svg>
+                  <div>
+                    {Object.values(customerProducts[item]).map((key, val) => {
+                      return <p>{val == 0 && <span>{key}</span>}</p>;
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </section>
     </div>
   );
