@@ -137,18 +137,6 @@ function allProducts({ contractInfo }) {
                 </div>
                 <div class="relative mb-4 mr-5 w-1/3">
                   <label for="name" className="leading-7 text-md text-gray-600">
-                    Product Description
-                  </label>
-                  <input
-                    type="text"
-                    id="desc"
-                    name="desc"
-                    value={currProd[1]}
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>
-                <div class="relative mb-4 mr-5 w-1/3">
-                  <label for="name" className="leading-7 text-md text-gray-600">
                     Owner ID
                   </label>
                   <input
@@ -222,13 +210,27 @@ function allProducts({ contractInfo }) {
                     value={currProd[6]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
-                </div>
+                </div>                              
               </div>
+              <div class="relative mb-4 mr-5 w-1/2">
+                  <label for="name" className="leading-7 text-md text-gray-600">
+                    Product Description
+                  </label>
+                  <textarea
+                    type="text"
+                    id="desc"
+                    name="desc"
+                    value={currProd[1]}
+                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                  />
+                </div>
             </form>
             {/* prod Certificates => {currProd[7]}
             prod logsids => {currProd[8]} */}
             <div className="flex">
-              <button className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3">
+              <button className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3"
+                onClick={() => window.open(`https://${currProd[8]}.ipfs.w3s.link`)}
+              >
                 <span className="mx-1">Get Prodcut Certificates</span>
               </button>
 
@@ -336,7 +338,7 @@ function allProducts({ contractInfo }) {
                       d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z"
                     />
                   </svg>
-                  <div>
+                  <div className="mt-5">
                     {Object.values(customerProducts[item]).map((key, val) => {
                       return <p>{val == 0 && <span>{key}</span>}</p>;
                     })}

@@ -67,6 +67,7 @@ const Login = ({ contractInfo }) => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Password"
+                            required
                           />
                         </div>
                         <div className="text-center pt-1 mb-12 pb-1">

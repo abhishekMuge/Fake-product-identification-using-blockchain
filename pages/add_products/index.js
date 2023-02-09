@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
 import { Web3Storage } from "web3.storage";
 
-export default function addProducts({ contractInfo }) {
+export default function addProducts({ contractInfo }){
   const client = new Web3Storage({
     token:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUzQjBiNGEzNzljNjAwM2UwRDcxNmIzZDVkNjU5ODBDODg4OWY0NDkiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzM2MDk1NTA1ODQsIm5hbWUiOiJBdXRoZW50aWZpLXN0b3JhZ2UifQ.cCj6Y5tSH5gNr782a01dTYbOGKcI166YMbjVo5M9zKg",
@@ -73,7 +73,7 @@ export default function addProducts({ contractInfo }) {
       <form className="mt-10 w-full">
         <div class="relative mb-4">
           <label for="name" className="leading-7 text-md text-gray-600">
-            Product Name
+            Product Name <span className="text-red-500">*</span>
           </label>
           <input
             type="text"
@@ -82,13 +82,14 @@ export default function addProducts({ contractInfo }) {
             value={request.name}
             onChange={(e) => InputChanges(e)}
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            required
           />
         </div>
 
         <div className="flex mb-4">
           <div class="relative mb-4 mr-5 w-1/3">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Owner ID
+              Owner ID <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -97,12 +98,13 @@ export default function addProducts({ contractInfo }) {
               value={request.ownerId}
               onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              required
             />
           </div>
 
           <div class="relative mb-4 w-1/3 flex flex-col mr-5">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Owner Address
+              Owner Address <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -111,12 +113,13 @@ export default function addProducts({ contractInfo }) {
               value={request.owner_address}
               onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              required
             />
           </div>
 
           <div class="relative mb-4 mr-5 w-2/5">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Manufacturer Address
+              Manufacturer Address <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -125,6 +128,7 @@ export default function addProducts({ contractInfo }) {
               value={request.manufactuer_address}
               onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              required
             />
           </div>
         </div>
@@ -132,7 +136,7 @@ export default function addProducts({ contractInfo }) {
         <div className="flex mb-4">
           <div class="relative mb-4 mr-5 w-2/5">
             <label for="name" className="leading-7 text-md text-gray-600">
-              Manufacturer ID
+              Manufacturer ID <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -141,6 +145,7 @@ export default function addProducts({ contractInfo }) {
               value={request.manufacturerId}
               onChange={(e) => InputChanges(e)}
               className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+              required
             />
           </div>
 
@@ -150,7 +155,7 @@ export default function addProducts({ contractInfo }) {
                 htmlFor="countries"
                 className="leading-7 text-md text-gray-600"
               >
-                Type of Product
+                Type of Product <span className="text-red-500">*</span>
               </label>
               <select
                 id="countries"
@@ -174,29 +179,34 @@ export default function addProducts({ contractInfo }) {
             for="prodDescription"
             className="leading-7 text-md text-gray-600"
           >
-            Product Description
+            Product Description <span className="text-red-500">*</span>
           </label>
-          <input
+          <textarea
             type="text"
             id="prodDescription"
             name="prodDescription"
             value={request.prodDescription}
             onChange={(e) => InputChanges(e)}
             className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            required
           />
         </div>
 
         <span className="leading-7 text-md text-gray-600">
-          Upload Certificates and Images
+          Upload Certificates and Images <span className="text-red-500">*</span>
         </span>
         <section className="container w-full h-40 mt-3 rounded-lg hover:border-dotted hover:border-teal-400 hover:border-4 text-gray-500 text-center bg-slate-100 flex justify-center items-center">
           <div className="" {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
-            <p>
-              Drag 'n' drop some files here,
-              <br />
-              or click to select files
-            </p>
+            {acceptedFiles.length > 0 ? 
+              acceptedFiles[0].name
+              :
+              <p>
+                Drag 'n' drop some files here,
+                <br />
+                or click to select files
+              </p>
+            }
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
