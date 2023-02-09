@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import { v4 as uuidv4 } from "uuid";
 import { Web3Storage } from "web3.storage";
 
-export default function addProducts({ contractInfo }){
+export default function addProducts({ contractInfo }) {
   const client = new Web3Storage({
     token:
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUzQjBiNGEzNzljNjAwM2UwRDcxNmIzZDVkNjU5ODBDODg4OWY0NDkiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NzM2MDk1NTA1ODQsIm5hbWUiOiJBdXRoZW50aWZpLXN0b3JhZ2UifQ.cCj6Y5tSH5gNr782a01dTYbOGKcI166YMbjVo5M9zKg",
@@ -198,15 +198,17 @@ export default function addProducts({ contractInfo }){
         <section className="container w-full h-40 mt-3 rounded-lg hover:border-dotted hover:border-teal-400 hover:border-4 text-gray-500 text-center bg-slate-100 flex justify-center items-center">
           <div className="" {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
-            {acceptedFiles.length > 0 ? 
-              acceptedFiles[0].name
-              :
+            {acceptedFiles.length > 0 ? (
+              <span className="text-md font-bold text-black leading-7">
+                {acceptedFiles.length} Files are selected
+              </span>
+            ) : (
               <p>
                 Drag 'n' drop some files here,
                 <br />
                 or click to select files
               </p>
-            }
+            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -223,6 +225,7 @@ export default function addProducts({ contractInfo }){
             </svg>
           </div>
         </section>
+
         <button
           onClick={(e) => handleSubmit(e)}
           className="w-full mt-4 h-12 px-6 text-indigo-100 transition-colors duration-150 bg-indigo-700 rounded-lg focus:shadow-outline hover:bg-indigo-800"

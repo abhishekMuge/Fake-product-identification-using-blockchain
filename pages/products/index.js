@@ -23,7 +23,9 @@ function allProducts({ contractInfo }) {
 
   const toggleDrawer = async (prodId) => {
     setIsOpen((prevState) => !prevState);
-    setCurrProd(customerProducts[prodId]);
+    if (prodId != undefined || prodId != null) {
+      setCurrProd(customerProducts[prodId]);
+    }
   };
 
   const userDrawerToggler = async (customerId, forSelector) => {
@@ -131,7 +133,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="name"
                     name="name"
-                    value={currProd[0]}
+                    value={currProd && currProd[0]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -143,7 +145,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="ownerId"
                     name="ownerId"
-                    value={currProd[2]}
+                    value={currProd && currProd[2]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                   <span
@@ -161,7 +163,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="owner_address"
                     name="owner_address"
-                    value={currProd[3]}
+                    value={currProd && currProd[3]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -175,7 +177,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="Manufacturer_id"
                     name="Manufacturer_id"
-                    value={currProd[4]}
+                    value={currProd && currProd[4]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                   <span
@@ -195,7 +197,7 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="Manufacturer_Address"
                     name="Manufacturer_Address"
-                    value={currProd[5]}
+                    value={currProd && currProd[5]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
@@ -207,29 +209,32 @@ function allProducts({ contractInfo }) {
                     type="text"
                     id="type"
                     name="type"
-                    value={currProd[6]}
-                    className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                  />
-                </div>                              
-              </div>
-              <div class="relative mb-4 mr-5 w-1/2">
-                  <label for="name" className="leading-7 text-md text-gray-600">
-                    Product Description
-                  </label>
-                  <textarea
-                    type="text"
-                    id="desc"
-                    name="desc"
-                    value={currProd[1]}
+                    value={currProd && currProd[6]}
                     className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                   />
                 </div>
+              </div>
+              <div class="relative mb-4 mr-5 w-1/2">
+                <label for="name" className="leading-7 text-md text-gray-600">
+                  Product Description
+                </label>
+                <textarea
+                  type="text"
+                  id="desc"
+                  name="desc"
+                  value={currProd && currProd[1]}
+                  className="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                />
+              </div>
             </form>
             {/* prod Certificates => {currProd[7]}
             prod logsids => {currProd[8]} */}
             <div className="flex">
-              <button className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3"
-                onClick={() => window.open(`https://${currProd[8]}.ipfs.w3s.link`)}
+              <button
+                className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3"
+                onClick={() =>
+                  window.open(`https://${currProd[8]}.ipfs.w3s.link`)
+                }
               >
                 <span className="mx-1">Get Prodcut Certificates</span>
               </button>
