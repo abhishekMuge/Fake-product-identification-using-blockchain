@@ -29,14 +29,6 @@ function allProducts({ contractInfo }) {
   };
 
   const userDrawerToggler = async (customerId, forSelector) => {
-    // if (forSelector == "customer" && manufacturerDrawerState) {
-    //   setmanufacturerDrawerState((prevState) => !prevState);
-    //   setcustomerDrawerState((prevState) => !prevState);
-    // }
-    // if (forSelector == "manufacturer" && customerDrawerState) {
-    //   setmanufacturerDrawerState((prevState) => !prevState);
-    //   setcustomerDrawerState((prevState) => !prevState);
-    // }
     let titles = [
       "name",
       "type",

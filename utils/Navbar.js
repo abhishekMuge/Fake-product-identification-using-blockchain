@@ -86,7 +86,7 @@ const Navbar = ({ account_address }) => {
             >
               <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />
             </svg>
-            <Link href="transfer" className="mx-4 font-medium">
+            <Link href="/transfer" className="mx-4 font-medium">
               Transfer Ownership
             </Link>
           </a>
@@ -108,7 +108,9 @@ const Navbar = ({ account_address }) => {
                 d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span className="mx-4 font-medium">Validate Product</span>
+            <Link href="/validate" className="mx-4 font-medium">
+              Validate Product
+            </Link>
           </a>
           <a
             className="flex items-center justify-center px-4 py-2 mt-40 text-gray-600 hover:text-red-500"
@@ -128,11 +130,9 @@ const Navbar = ({ account_address }) => {
                 d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
               />
             </svg>
-            <span 
+            <span
               className="mx-4 font-medium"
-              onClick={(e) => 
-                handleSignOut(e)                                                              
-              }
+              onClick={(e) => handleSignOut(e)}
             >
               Logout
             </span>
@@ -140,7 +140,7 @@ const Navbar = ({ account_address }) => {
         </nav>
       </div>
     </div>
-  )
+  );
 };
 
 export default Navbar;
