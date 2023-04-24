@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import hashMD5 from "md5";
-
+import QRCode from "qrcode";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import DrawerComponent from "../../utils/Drawer";
@@ -23,7 +23,23 @@ function allProducts({ contractInfo }) {
 
   const toggleDrawer = async (prodId) => {
     setIsOpen((prevState) => !prevState);
+
     if (prodId != undefined || prodId != null) {
+      // await generateQR(prodId);
+      QRCode.toFile(
+        `G:BE ProjectProjectauthentifiDownloads/${prodId}`,
+        "Some text",
+        {
+          color: {
+            dark: "#00F", // Blue dots
+            light: "#0000", // Transparent background
+          },
+        },
+        function (err) {
+          if (err) throw err;
+          console.log("done");
+        }
+      );
       setCurrProd(customerProducts[prodId]);
     }
   };

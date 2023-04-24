@@ -46,7 +46,7 @@ const Register = ({ contractInfo }) => {
       console.log("create customer status: ", isSuccess);
     }
 
-    router.push("/auth/login");
+    Router.push("/auth/login");
   };
 
   const saveStateToContract = async () => {

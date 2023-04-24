@@ -58,6 +58,7 @@ export default function addProducts({ contractInfo }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const prodId = uuidv4();
+    console.log(prodId);
     const res = await registerProduct(prodId);
     await uploadDocumentToIPFS(prodId);
     const productGetRequest = await contractInfo.contractInstace.methods

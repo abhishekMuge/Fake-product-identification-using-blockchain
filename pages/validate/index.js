@@ -50,6 +50,14 @@ function validateProduct({ contractInfo }) {
     setSearchData(event.target.value);
   };
 
+  const handleTextInputSubmit = async () => {
+    if (searchData !== "") {
+      await fetchProduct(searchData);
+    } else {
+      console.log("No Data Found");
+    }
+  };
+
   const userDrawerToggler = async (customerId, forSelector) => {
     let titles = [
       "name",
@@ -317,6 +325,12 @@ function validateProduct({ contractInfo }) {
                   value={searchData}
                 />
               </div>
+              <button
+                className="w-full mt-10 text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+                onClick={() => handleTextInputSubmit()}
+              >
+                Search Data
+              </button>
             </section>
           </div>
         </div>
