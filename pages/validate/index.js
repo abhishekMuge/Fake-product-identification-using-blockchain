@@ -4,7 +4,7 @@ import hashMD5 from "md5";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import DrawerComponent from "../../utils/Drawer";
-
+import Swal from "sweetalert2";
 import QrReader from "react-web-qr-reader";
 
 function validateProduct({ contractInfo }) {
@@ -38,6 +38,8 @@ function validateProduct({ contractInfo }) {
       sannerToggler();
       setSearchData(result?.data);
       await fetchProduct(result?.data);
+      setIsOpen((prevState) => !prevState);
+      setscannerState((prevState) => !prevState);
     }
   };
 
@@ -53,6 +55,24 @@ function validateProduct({ contractInfo }) {
   const handleTextInputSubmit = async () => {
     if (searchData !== "") {
       await fetchProduct(searchData);
+      console.log(currProd[2]);
+
+      if (
+        currProd[2] === "" ||
+        currProd[3] === "0x0000000000000000000000000000000000000000"
+      ) {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          html: "<b> Given Product is not register with our system </b>",
+          showConfirmButton: false,
+          timer: 2500,
+          width: 300,
+        });
+        console.log("Give product is not registered with our account");
+      } else {
+        setIsOpen((prevState) => !prevState);
+      }
     } else {
       console.log("No Data Found");
     }
@@ -86,8 +106,6 @@ function validateProduct({ contractInfo }) {
       .getProduct(prodId)
       .call();
     setCurrProd(product);
-    setscannerState((prevState) => !prevState);
-    setIsOpen((prevState) => !prevState);
   };
 
   return (
@@ -101,7 +119,11 @@ function validateProduct({ contractInfo }) {
         <div className="main-container m-3">
           <div className="close-btn flex">
             <button
-              onClick={toggleDrawer}
+              onClick={() => {
+                setCurrProd([]);
+                toggleDrawer();
+                setscannerState((prevState) => !prevState);
+              }}
               className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40"
             >
               <svg
@@ -126,6 +148,11 @@ function validateProduct({ contractInfo }) {
             <h1 className="my-3 text-2xl font-bold leading-2">
               Product Details
             </h1>
+            <p>
+              {currProd[3] === "0x0000000000000000000000000000000000000000" && (
+                <b> Given Product is not Register with Our System </b>
+              )}
+            </p>
             <form>
               <div className="flex mb-4">
                 <div class="relative mb-4 mr-5 w-1/3">

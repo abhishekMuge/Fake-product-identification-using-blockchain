@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import hashMD5 from "md5";
 import QRCode from "qrcode";
+import { saveAs } from "file-saver";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import DrawerComponent from "../../utils/Drawer";
@@ -21,25 +22,23 @@ function allProducts({ contractInfo }) {
       .catch((err) => console.log(err));
   }, []);
 
+  const downloadImage = async (Url, prodId) => {
+    await saveAs(Url, `${prodId}.jpg`);
+  };
+
+  const generateQRAndDownload = async (prodId) => {
+    try {
+      let QRURL = await QRCode.toDataURL(prodId);
+      await downloadImage(QRURL, prodId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const toggleDrawer = async (prodId) => {
     setIsOpen((prevState) => !prevState);
 
     if (prodId != undefined || prodId != null) {
-      // await generateQR(prodId);
-      QRCode.toFile(
-        `G:BE ProjectProjectauthentifiDownloads/${prodId}`,
-        "Some text",
-        {
-          color: {
-            dark: "#00F", // Blue dots
-            light: "#0000", // Transparent background
-          },
-        },
-        function (err) {
-          if (err) throw err;
-          console.log("done");
-        }
-      );
       setCurrProd(customerProducts[prodId]);
     }
   };
@@ -79,7 +78,7 @@ function allProducts({ contractInfo }) {
         .getProduct(userProducts[i])
         .call();
 
-      allProducts[userProducts[i]] = prodDetails;
+      allProducts[userProducts[i]] = { ...prodDetails, 10: userProducts[i] };
     }
 
     // Object.entries(allProducts).forEach(([key, value]) => {
@@ -247,8 +246,11 @@ function allProducts({ contractInfo }) {
                 <span className="mx-1">Get Prodcut Certificates</span>
               </button>
 
-              <button className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3">
-                <span className="mx-1">Go To Prodcut Logs</span>
+              <button
+                className="flex items-center justify-center w-full px-10 py-2 text-white transition-colors duration-200 transform bg-black rounded-md focus:outline-none sm:w-auto sm:mx-1 hover:bg-black focus:bg-black focus:ring focus:ring-black focus:ring-opacity-40 mr-3"
+                onClick={() => generateQRAndDownload(currProd[10])}
+              >
+                <span className="mx-1">Get Product QR</span>
               </button>
             </div>
           </div>
